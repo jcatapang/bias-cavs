@@ -1,7 +1,7 @@
 # bias-cavs
 A framework for probing and explaining internal bias in large language models
 
-This repository contains the code and materials for the Bias-CAV framework, a novel approach that leverages concept activation vectors to diagnose and explain internal gender bias in large language models (LLMs). Our method provides a layer-wise analysis of model activations to reveal where bias is introduced, amplified, or mitigated. In addition, we propose principled strategies for debiasing that are informed by our mathematical framework.
+This repository contains the code and materials for the Bias-CAV framework, featured in the research paper entitled "Explaining Bias in Internal Representations of Large Language Models via Concept Activation Vectors". This framework is a novel approach that leverages concept activation vectors to diagnose and explain internal gender bias in large language models (LLMs). Our method provides a layer-wise analysis of model activations to reveal where bias is introduced, amplified, or mitigated. In addition, we propose principled strategies for debiasing that are informed by our mathematical framework.
 
 ## Table of Contents
 
