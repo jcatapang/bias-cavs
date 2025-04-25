@@ -1,9 +1,9 @@
-# bias-cavs
+# bias-cavs  
 A framework for probing and explaining internal bias in large language models
 
-This repository contains the code and materials for the Bias-CAV framework, featured in the research paper entitled "Explaining Bias in Internal Representations of Large Language Models via Concept Activation Vectors". This framework is a novel approach that leverages concept activation vectors to diagnose and explain internal gender bias in large language models (LLMs). Our method provides a layer-wise analysis of model activations to reveal where bias is introduced, amplified, or mitigated. In addition, we propose principled strategies for debiasing that are informed by our mathematical framework.
+This repository contains the code and materials for the **Bias-CAV** framework, featured in the research paper _"Explaining Bias in Internal Representations of Large Language Models via Concept Activation Vectors."_ Bias-CAV is a novel diagnostic tool that leverages concept activation vectors (CAVs) to probe the **internal representations** of large language models (LLMs) for **gender**, **racial**, **professional**, and **political** biases. Our method conducts a **layer-wise analysis** to uncover where bias is introduced, amplified, or mitigated—enabling both insight and intervention.
 
-The manuscript introducing this framework has been accepted as a long paper at the 29th International Conference on Natural Language & Information Systems ([NLDB 2025](https://www.jaist.ac.jp/event/nldb2025/)), to be presented in July 2025 in Kanazawa, Japan and published in Springer.
+The manuscript has been accepted as a long paper at the **29th International Conference on Natural Language & Information Systems** ([NLDB 2025](https://www.jaist.ac.jp/event/nldb2025/)), to be held in July 2025 in Kanazawa, Japan, and will be published by **Springer**.
 
 ## Table of Contents
 
@@ -18,77 +18,95 @@ The manuscript introducing this framework has been accepted as a long paper at t
 
 ## Overview
 
-Large language models have demonstrated remarkable capabilities in natural language processing but often inherit subtle societal biases from their training data. Bias-CAVs extend the concept activation vector methodology to probe internal LLM representations. By extracting activations from key layers and training logistic regression classifiers, our framework computes a bias probability \(P_m(e)\) for each embedding, thus pinpointing bias propagation within the model.
+While large language models have revolutionized natural language processing, they often inherit **societal biases** from training data. Bias-CAV extends the concept activation vector methodology to diagnose these internal biases across different sociolinguistic domains.
 
-We also propose debiasing strategies, including a direct corrective approach during inference and a regularization term added to the training objective. Both strategies leverage our closed-form perturbation derived from the classifier's decision boundary.
+By extracting activations from key LLM layers and training simple linear classifiers, Bias-CAV computes a bias probability \(P_m(e)\) for each embedding. Our analysis identifies the layers where bias is most detectable and provides mechanisms for bias correction.
+
+We further propose **two debiasing strategies**:
+- A direct, closed-form **perturbation during inference**.
+- A **training-time regularization penalty** that discourages biased internal activations.
 
 ## Features
 
-- **Layer-Wise Analysis:** Extracts and analyzes activations from multiple layers (e.g., layers 0, 8, 16, and final) to understand the internal bias propagation.
-- **Robust Bias Detection:** Uses a logistic regression-based classifier (Bias-CAV) that consistently achieves strong cross-validation metrics.
-- **Debiasing Proposals:** Provides two complementary debiasing strategies:
-  - A direct corrective perturbation during inference.
-  - A training objective augmentation with a bias regularization term.
-- **Reproducibility:** Includes all scripts and instructions necessary to reproduce our experimental results.
+- **Multi-Domain Bias Coverage**: Detects **gender**, **race**, **profession**, and **political** bias across varied datasets.
+- **Layer-Wise Probing**: Explains how and where bias emerges inside LLMs by probing activations at early, middle, and final layers.
+- **Closed-Form Debiasing**: Derives optimal perturbations to reduce internal bias without performance degradation.
+- **Training Objective Augmentation**: Introduces a bias penalty term for fine-tuning with reduced internal bias.
+- **Cross-Model Analysis**: Evaluated on multiple quantized models (e.g., LLaMA-3, Mistral, Phi, Gemma) via the Unsloth library.
+- **Reproducibility**: All code and settings required to replicate our experiments are provided.
 
 ## Installation
 
-To set up the project, first clone this repository:
+To get started, clone this repository:
 
 ```bash
 git clone https://github.com/yourusername/bias-cavs.git
 cd bias-cavs
 ```
 
-Install the required dependencies using the provided `requirements.txt`:
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Ensure that you have Python 3.10 or later installed. This project is optimized for running on a CUDA-enabled GPU (e.g., NVIDIA A100-SXM4-40GB) with Google Colab Pro.
+Python 3.10+ is required. This project is GPU-optimized (recommended: NVIDIA A100 via Google Colab Pro).
 
 ## Usage
 
-The main experimental pipeline is implemented in the script `run_experiment.py`. This script loads the MDGenderBias dataset from the Hugging Face Hub, extracts activations from selected layers of multiple LLM variants using the Unsloth library, and evaluates bias detection performance using five-fold cross-validation.
+The pipeline is orchestrated in `run_experiment.py`. It loads the datasets, extracts layer activations, trains bias classifiers, and evaluates model performance using five-fold CV.
 
-To run the experiments, simply execute:
+To run the full experiment:
 
 ```bash
 python main.py
 ```
 
-The script will output cross-validation metrics (Accuracy, Precision, Recall, F1 Score) for each model and configuration, and generate visualizations (e.g., t-SNE plots) that are saved in the `tsne_plots/` directory.
+Generated metrics and visualizations (e.g., t-SNE plots, bias scores per layer) will be saved in output folders.
 
 ## Datasets
 
-This work uses the MDGenderBias dataset, which is a multi-dimensional corpus capturing gender bias along various axes (ABOUT, AS, TO). We utilize five configurations:
+We evaluate bias across four dimensions using the following datasets:
+
+### Gender Bias
+From the [MDGenderBias](https://huggingface.co/datasets/md_gender_bias) corpus:
 - `convai2_inferred`
 - `light_inferred`
 - `opensubtitles_inferred`
 - `yelp_inferred`
 - `image_chat`
 
-The dataset is available from the Hugging Face Hub, and our code applies standardized preprocessing to ensure consistent evaluation across configurations.
+### Race & Profession Bias
+- **Stereoset**: Intersentence split for race- and profession-related stereotypes. Reformatted for binary classification.
+
+### Political Bias
+- **Political Bias Dataset**: Categorized as neutral vs. non-neutral (liberal/conservative) statements.
+
+All datasets are automatically downloaded and preprocessed via Hugging Face.
 
 ## License
 
-This project is released under the Apache License 2.0. While the Unsloth library is licensed under Apache 2.0 and the MDGenderBias dataset is available under the MIT license, the combined work in this repository adopts the Apache 2.0 license. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the **Apache 2.0 License**.  
+Dependencies include:
+- Unsloth (Apache 2.0)
+- MDGenderBias (MIT License)
+
+See the [LICENSE](LICENSE) file for full details.
 
 ## Citation
 
-This work has been accepted to NLDB 2025. Please stay tuned.
+If you use this framework in your research, please cite the following:
 
 ```
 @misc{catapang2025biascavs,
   author = {Catapang, Jasper Kyle},
   title = {Bias-CAVs: Explainable Bias Discovery in Large Language Models Using Concept Activation Vectors},
   year = {2025},
-  howpublished = {\url{https://github.com/jcatapang/bias-cavs/}},
-  note = {Work in progress; manuscript submitted for review}
+  howpublished = {\url{https://github.com/jcatapang/bias-cavs}},
+  note = {Accepted at NLDB 2025, Kanazawa, Japan}
 }
 ```
 
 ## Acknowledgements
 
-We thank the [Unsloth](https://github.com/unslothai/unsloth) team for providing an efficient framework for low-bit quantization and model patching. Special thanks to contributors and open-source projects that have made this work possible.
+Special thanks to the [Unsloth](https://github.com/unslothai/unsloth) team for enabling efficient low-bit quantized model loading. We also thank the creators of MDGenderBias, StereoSet, and the Political Bias dataset for making this research possible.
