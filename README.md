@@ -3,6 +3,8 @@ A framework for probing and explaining internal bias in large language models
 
 This repository contains the code and materials for the Bias-CAV framework, featured in the research paper entitled "Explaining Bias in Internal Representations of Large Language Models via Concept Activation Vectors". This framework is a novel approach that leverages concept activation vectors to diagnose and explain internal gender bias in large language models (LLMs). Our method provides a layer-wise analysis of model activations to reveal where bias is introduced, amplified, or mitigated. In addition, we propose principled strategies for debiasing that are informed by our mathematical framework.
 
+The manuscript introducing this framework has been accepted as a long paper at the 29th International Conference on Natural Language & Information Systems ([NLDB 2025](https://www.jaist.ac.jp/event/nldb2025/)), to be presented in July 2025 in Kanazawa, Japan and published in Springer.
+
 ## Table of Contents
 
 - [Overview](#overview)
