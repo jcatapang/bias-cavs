@@ -77,7 +77,7 @@ This project is released under the Apache License 2.0. While the Unsloth library
 
 ## Citation
 
-This work is currently submitted to a conference. Please stay tuned.
+This work has been accepted to NLDB 2025. Please stay tuned.
 
 ```
 @misc{catapang2025biascavs,
@@ -92,5 +92,3 @@ This work is currently submitted to a conference. Please stay tuned.
 ## Acknowledgements
 
 We thank the [Unsloth](https://github.com/unslothai/unsloth) team for providing an efficient framework for low-bit quantization and model patching. Special thanks to contributors and open-source projects that have made this work possible.
-
-For further details and updates, please visit our [GitHub repository](https://github.com/jcatapang/bias-cavs).
